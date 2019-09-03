@@ -381,8 +381,16 @@ defmodule Mogrify do
 
   defp cmd_convert(args, opts) do
     case :os.type() do
-      {:win32, _} -> System.cmd("cmd.exe", ["/c", "magick", "convert"] ++ args, opts)
-      _ -> System.cmd("convert", args, opts)
+      {:win32, _} ->
+        System.cmd("cmd.exe", ["/c", "magick", "convert"] ++ args, opts)
+
+      _ ->
+        IO.inspect(args,
+          label: "\n===== Args From Mogrify ====================\n",
+          limit: :infinity
+        )
+
+        System.cmd("convert", args, opts)
     end
   end
 
